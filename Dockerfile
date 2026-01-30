@@ -2,7 +2,7 @@
 # 支持GPU部署
 
 # 使用vLLM官方镜像作为基础镜像
-FROM vllm/vllm-openai:latest
+FROM vllm/vllm-openai:v0.6.1
 
 # 设置工作目录
 WORKDIR /app
@@ -33,4 +33,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 ENTRYPOINT []
 
 # 启动服务
-CMD ["python", "llm_service.py"]
+CMD ["python3", "llm_service.py"]
