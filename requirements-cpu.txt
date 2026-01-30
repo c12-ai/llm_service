@@ -1,0 +1,14 @@
+# CPU测试专用依赖（本地开发时使用）
+fastapi
+uvicorn[standard]
+pydantic
+transformers>=4.30.0
+torch>=2.0.0
+accelerate
+modelscope
+numpy
+sentencepiece
+tiktoken
+protobuf
+triton  # FP8模型需要（macOS可能无法安装）
+openai  # 用于测试 API 兼容性

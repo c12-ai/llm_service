@@ -1,0 +1,36 @@
+# Docker Compose 配置 - CPU版本（本地测试用）
+# 使用 .env 文件配置模型路径，快速切换模型
+version: '3.8'
+
+services:
+  llm-service-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.cpu
+    container_name: qwen-llm-service-cpu
+    ports:
+      - "${SERVICE_PORT:-8000}:8000"
+    volumes:
+      # 挂载模型目录（从 .env 配置读取）
+      - ${HOST_MODEL_DIR:-~/.cache/modelscope/hub/models/Qwen}:${CONTAINER_MODEL_DIR:-/models}:ro
+    environment:
+      - MODEL_PATH=${MODEL_PATH:-/models/Qwen3-4B}
+      - MODEL_NAME=${MODEL_NAME:-Qwen3-4B}
+      - SERVICE_HOST=${SERVICE_HOST:-0.0.0.0}
+      - SERVICE_PORT=${SERVICE_PORT:-8000}
+    # CPU 限制（从 .env 读取或使用默认值）
+    deploy:
+      resources:
+        limits:
+          cpus: '${CPU_LIMIT:-4}'
+          memory: ${MEMORY_LIMIT:-16G}
+        reservations:
+          cpus: '${CPU_RESERVATION:-2}'
+          memory: ${MEMORY_RESERVATION:-8G}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s  # 启动时间较长（模型加载）

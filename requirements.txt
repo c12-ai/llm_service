@@ -1,0 +1,19 @@
+# Web框架
+fastapi
+uvicorn[standard]
+pydantic
+
+# LLM推理
+vllm>=0.6.0  # GPU环境使用
+transformers>=4.30.0
+torch>=2.0.0
+accelerate
+
+# 模型下载（可选）
+modelscope
+
+# 工具
+numpy
+sentencepiece  # tokenizer可能需要
+tiktoken  # tokenizer可能需要
+protobuf
